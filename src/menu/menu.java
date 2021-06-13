@@ -6,7 +6,7 @@
 package menu;
 
 import kasir.kasir;
-import pengaturan.pengaturan;
+import pengaturan.masuk;
 /**
  *
  * @author HP
@@ -18,7 +18,7 @@ public class menu extends javax.swing.JFrame {
      */
     public menu() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null); //Tampilan di tengah
     }
 
     /**
@@ -134,15 +134,15 @@ public class menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void kasirMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kasirMenuActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new kasir().setVisible(true);
+        // Jika klik tombol kasir maka pindah ke frame kasir
+        this.setVisible(false); // menutup frame menu
+        new kasir().setVisible(true); //menampilkan frame kasir
     }//GEN-LAST:event_kasirMenuActionPerformed
 
     private void pengaturanMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pengaturanMenuActionPerformed
-        // TODO add your handling code here:
+        // Jika klik tombol pengaturan maka pindah ke frame pengaturan
         this.setVisible(false);
-        new pengaturan().setVisible(true);
+        new masuk().setVisible(true);
     }//GEN-LAST:event_pengaturanMenuActionPerformed
 
     /**

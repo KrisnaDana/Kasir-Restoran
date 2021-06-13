@@ -29,7 +29,6 @@ public class pengaturan extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton5 = new javax.swing.JButton();
         utamaPanel = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
         tambahButton = new javax.swing.JButton();
@@ -39,8 +38,6 @@ public class pengaturan extends javax.swing.JFrame {
         judulLabel = new javax.swing.JLabel();
         kembaliButton = new javax.swing.JButton();
         ubahsandiButton = new javax.swing.JButton();
-
-        jButton5.setText("jButton5");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,9 +104,9 @@ public class pengaturan extends javax.swing.JFrame {
         judulPanel.setLayout(judulPanelLayout);
         judulPanelLayout.setHorizontalGroup(
             judulPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(judulPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, judulPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(judulLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                .addComponent(judulLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         judulPanelLayout.setVerticalGroup(
@@ -143,14 +140,13 @@ public class pengaturan extends javax.swing.JFrame {
             .addGroup(utamaPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(utamaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(judulPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(utamaPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, utamaPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(judulPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(utamaPanelLayout.createSequentialGroup()
                         .addComponent(ubahsandiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(kembaliButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(kembaliButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         utamaPanelLayout.setVerticalGroup(
@@ -182,31 +178,31 @@ public class pengaturan extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void kembaliButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kembaliButtonActionPerformed
-        // TODO add your handling code here:
+        // pindah ke frame menu
         this.setVisible(false);
         new menu().setVisible(true);
     }//GEN-LAST:event_kembaliButtonActionPerformed
 
     private void ubahsandiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahsandiButtonActionPerformed
-        // TODO add your handling code here:
+        // pindah ke frame sandi
         this.setVisible(false);
         new sandi().setVisible(true);
     }//GEN-LAST:event_ubahsandiButtonActionPerformed
 
     private void hapusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusButtonActionPerformed
-        // TODO add your handling code here:
+        // pindah ke frame hapus
         this.setVisible(false);
         new hapus().setVisible(true);
     }//GEN-LAST:event_hapusButtonActionPerformed
 
     private void tambahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahButtonActionPerformed
-        // TODO add your handling code here:
+        // pindah ke frame tambah
         this.setVisible(false);
         new tambah().setVisible(true);
     }//GEN-LAST:event_tambahButtonActionPerformed
 
     private void ubahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahButtonActionPerformed
-        // TODO add your handling code here:
+        // pindah ke frame ubah
         this.setVisible(false);
         new ubah().setVisible(true);
     }//GEN-LAST:event_ubahButtonActionPerformed
@@ -251,7 +247,6 @@ public class pengaturan extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton hapusButton;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel judulLabel;
     private javax.swing.JPanel judulPanel;
     private javax.swing.JButton kembaliButton;

@@ -2,36 +2,43 @@ package kasir;
 
 import java.awt.event.KeyEvent;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import menu.menu;
 
 public class kasir extends javax.swing.JFrame {
+    String idKategori = null;
+    String tampungIdTransaksi = null;
+    int statTransaksi = 0;
+    int statCetak = 0;
 
-    String meja[] = {"Pilih Meja", "Meja 1", "Meja 2", "Meja 3", "Meja 4", "Meja 5", "Meja 6",
-                     "Meja 7", "Meja 8", "Meja 9", "Meja 10", "Meja 11", "Meja 12"};
     
-    String kategori[] = {"Pilih Kategori", "Nasi", "Ayam", "Burger", "Teh", "Kopi"};
-    
-    String menu[];
+    ArrayList<String> idMeja = new ArrayList<String>();
+    ArrayList<String> meja = new ArrayList<String>();
+    ArrayList<String> idMenu = new ArrayList<String>();
+    ArrayList<String> menu = new ArrayList<String>();
     
     int no = 0;
     
     public kasir() {
         initComponents();
         this.setLocationRelativeTo(null);
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        DefaultComboBoxModel modelMeja = new DefaultComboBoxModel(meja);
-        mejaComboBox.setModel(modelMeja);
+        
+        tampilkanMeja();
+        tampilkanKategori();
+        idTransaksi();
         
     }
-
-    Connection koneksi;
-    PreparedStatement pst;
-    ResultSet rs;
     
     
     @SuppressWarnings("unchecked")
@@ -71,7 +78,6 @@ public class kasir extends javax.swing.JFrame {
         judulLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -243,6 +249,16 @@ public class kasir extends javax.swing.JFrame {
 
         bayarText.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bayarText.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        bayarText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bayarTextActionPerformed(evt);
+            }
+        });
+        bayarText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                bayarTextKeyTyped(evt);
+            }
+        });
 
         kembaliLabel.setBackground(new java.awt.Color(255, 255, 255));
         kembaliLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -295,15 +311,18 @@ public class kasir extends javax.swing.JFrame {
         panelComboBox.setBackground(new java.awt.Color(10, 4, 60));
 
         mejaComboBox.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        mejaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         mejaComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mejaComboBoxActionPerformed(evt);
             }
         });
+        mejaComboBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                mejaComboBoxKeyPressed(evt);
+            }
+        });
 
         kategoriComboBox.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        kategoriComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Kategori" }));
         kategoriComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 kategoriComboBoxActionPerformed(evt);
@@ -311,7 +330,6 @@ public class kasir extends javax.swing.JFrame {
         });
 
         menuComboBox.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        menuComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Menu" }));
         menuComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuComboBoxActionPerformed(evt);
@@ -410,10 +428,10 @@ public class kasir extends javax.swing.JFrame {
             .addGroup(utamaPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(utamaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(daftarSroll)
                     .addComponent(inputPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(judulPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(judulPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(daftarSroll, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(utamaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(outputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -441,10 +459,12 @@ public class kasir extends javax.swing.JFrame {
         );
 
         jMenu1.setText("File");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -503,84 +523,122 @@ public class kasir extends javax.swing.JFrame {
         tagihanText.setText(tagihanText.getText() + "\t\t\t\t" + "Kembali :\t" + "Rp" + kembaliTagihan + "\n");
         tagihanText.setText(tagihanText.getText() + "============================================================\n");
         
+        try{
+            File file = new File("transaksi_"+tampungIdTransaksi+".txt");
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("============================================================");
+            bw.newLine(); 
+            bw.write("                          TAGIHAN                           ");
+            bw.newLine();
+            bw.write("============================================================");
+            bw.newLine();
+            
+            for(int i=0; i<daftarTable.getRowCount();i++){
+                String menuTagihan = (String)daftarTable.getValueAt(i, 2);
+                String hargaTagihan = (String)daftarTable.getValueAt(i, 4);
+                String subtotalTagihan = (String)daftarTable.getValueAt(i, 5);
+                String jumlahTagihan = (String)daftarTable.getValueAt(i, 3);
+
+                bw.write(" " + jumlahTagihan + " " + menuTagihan + "\t\t\t" + "Rp" + hargaTagihan + "\t\t" + "Rp" + subtotalTagihan);
+                bw.newLine();
+            }
+            
+            bw.write("============================================================\n");
+            bw.newLine();
+            bw.write("\t\t\t\t" + "Total   :\t" + "Rp" + totalTagihan);
+            bw.newLine();
+            bw.write("\t\t\t\t" + "Bayar   :\t" + "Rp" + bayarTagihan);
+            bw.newLine();
+            bw.write("\t\t\t\t" + "Kembali :\t" + "Rp" + kembaliTagihan);
+            bw.newLine();
+            bw.write("============================================================");
+            
+            bw.close();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
     }
      
     private void kategoriComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kategoriComboBoxActionPerformed
-        
-        String kategoriModel = kategoriComboBox.getSelectedItem().toString();
-        
-        if(kategoriModel.equals(kategori[1])){
-            menuComboBox.setModel(new DefaultComboBoxModel<> (new String[] {
-                "Pilih Menu", "Nasi Goreng", "Nasi Kuning", "Nasi Putih"
-            }));
-        }else if(kategoriModel.equals(kategori[2])){
-            menuComboBox.setModel(new DefaultComboBoxModel<> (new String[] {
-                "Pilih Menu", "Ayam Goreng", "Ayam Geprek"
-            }));
-        }else if(kategoriModel.equals(kategori[3])){
-            menuComboBox.setModel(new DefaultComboBoxModel<> (new String[] {
-                "Pilih Menu", "Burger Keju", "Burger Sapi"
-            }));
-        }else if(kategoriModel.equals(kategori[4])){
-            menuComboBox.setModel(new DefaultComboBoxModel<> (new String[] {
-                "Pilih Menu", "Teh Manis", "Teh Tawar"
-            }));
-        }else if(kategoriModel.equals(kategori[5])){
-            menuComboBox.setModel(new DefaultComboBoxModel<> (new String[] {
-                "Pilih Menu", "Kopi Cappucino", "Kopi Latte"
-            }));
+        try {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+            ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM tb_kategori"); 
+            String pilihanKategori = kategoriComboBox.getSelectedItem().toString();
+            while(rs.next()){
+                if(pilihanKategori.equals(rs.getString(2))){
+                    idKategori = rs.getString(1);
+                }
+            }
+            cn.close();
+        } catch (Exception ex) {
+            Logger.getLogger(kasir.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        menuComboBox.removeAllItems();
+        tampilkanMenu();
     }//GEN-LAST:event_kategoriComboBoxActionPerformed
 
     private void tambahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahButtonActionPerformed
-        no++;
-        DefaultTableModel tableDaftar = new DefaultTableModel();
-        
-        tableDaftar = (DefaultTableModel)daftarTable.getModel();
-        tableDaftar.addRow(new Object[]{
-            no,
-            kodeText.getText(),
-            menuComboBox.getSelectedItem().toString(),
-            jumlahSpinner.getValue().toString(),
-            hargaText.getText(),
-            subtotalText.getText()
-        });
+        int Jumlah = Integer.parseInt(jumlahSpinner.getValue().toString());
+        if(Jumlah==0){
+            JOptionPane.showMessageDialog(null, "Jumlah Menu Tidak Boleh 0","Peringatan", JOptionPane.ERROR_MESSAGE);
+        }else{
+            
+            no++;
+            DefaultTableModel tableDaftar = new DefaultTableModel();
 
-        int sum = 0;
-        
-        for(int i=0;i<daftarTable.getRowCount();i++){
-            sum = sum + Integer.parseInt(daftarTable.getValueAt(i, 5).toString());
+            tableDaftar = (DefaultTableModel)daftarTable.getModel();
+            tableDaftar.addRow(new Object[]{
+                no,
+                kodeText.getText(),
+                menuComboBox.getSelectedItem().toString(),
+                jumlahSpinner.getValue().toString(),
+                hargaText.getText(),
+                subtotalText.getText()
+            });
+            
+            detailTransaksi();
+            
+            int sum = 0;
+            for(int i=0;i<daftarTable.getRowCount();i++){
+                sum = sum + Integer.parseInt(daftarTable.getValueAt(i, 5).toString());
+            }
+            totalText.setText(Integer.toString(sum));
+            jumlahSpinner.setValue(0);
+ 
         }
-        
-        totalText.setText(Integer.toString(sum));
-        
-        DefaultComboBoxModel modelKategori = new DefaultComboBoxModel(kategori);
-        kategoriComboBox.setModel(modelKategori);
-        menuComboBox.setModel(new DefaultComboBoxModel<> (new String[] {
-                "Pilih Menu"
-        }));
-        kodeText.setText("");
-        jumlahSpinner.setValue(0);
-        hargaText.setText("");
-        subtotalText.setText("");
     }//GEN-LAST:event_tambahButtonActionPerformed
 
     private void mejaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mejaComboBoxActionPerformed
-        
-        DefaultComboBoxModel modelKategori = new DefaultComboBoxModel(kategori);
-        kategoriComboBox.setModel(modelKategori);
-        menuComboBox.setModel(new DefaultComboBoxModel<> (new String[] {
-                "Pilih Menu"
-        }));
+
     }//GEN-LAST:event_mejaComboBoxActionPerformed
 
     private void cetakButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cetakButtonActionPerformed
+        String Bayar1 = bayarText.getText();
+        String Total1 = totalText.getText();
 
-        bayar();
-        tagihan();
-        
-        no=0;
+        if(statCetak==1){
+            JOptionPane.showMessageDialog(null, "Cetak tagihan hanya diperbolehkan sekali","Peringatan", JOptionPane.ERROR_MESSAGE);
+        }else if(Total1.isEmpty()==true){
+            JOptionPane.showMessageDialog(null, "Total tidak boleh kosong","Peringatan", JOptionPane.ERROR_MESSAGE);
+        }else if(Bayar1.isEmpty()==true){
+            JOptionPane.showMessageDialog(null, "Bayar tidak boleh kosong","Peringatan", JOptionPane.ERROR_MESSAGE);
+        }else{
+            int Bayar = Integer.parseInt(bayarText.getText());
+            int Total = Integer.parseInt(totalText.getText());
+            
+            if(Bayar<Total){
+                JOptionPane.showMessageDialog(null, "Bayar tidak boleh kurang dari total","Peringatan", JOptionPane.ERROR_MESSAGE);
+            }else{
+                bayar();
+                tagihan();
+                no=0;
+                transaksi();
+                statCetak=1;
+                statTransaksi=0;
+            }
+        }     
     }//GEN-LAST:event_cetakButtonActionPerformed
 
     private void totalTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalTextActionPerformed
@@ -596,29 +654,28 @@ public class kasir extends javax.swing.JFrame {
     }//GEN-LAST:event_kodeTextKeyPressed
 
     private void menuComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuComboBoxActionPerformed
-        String comboBoxMenu = menuComboBox.getSelectedItem().toString();
-        
         try {
-
-                koneksi = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
-                pst = koneksi.prepareStatement("select * from tb_menu where menu = ?");
-                pst.setString(1, comboBoxMenu);
-                //System.out.println(pst);
-                rs = pst.executeQuery();
-                //System.out.println(rs);
-                
-                rs.next();
-                String mKode = rs.getString("kode");
-                String mHarga = rs.getString("harga");
-                
-                kodeText.setText(mKode.trim());
-                hargaText.setText(mHarga.trim());
-                
-            }catch (SQLException ex) {
-                Logger.getLogger(kasir.class.getName()).log(Level.SEVERE, null, ex);
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+            ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM tb_menu"); 
+            rs.beforeFirst();
+            String pilihanMenu = menuComboBox.getSelectedItem().toString();
+            
+            while(rs.next()){
+                if(pilihanMenu.equals(rs.getString(4))){
+                    kodeText.setText(rs.getString(3));
+                    hargaText.setText(rs.getString(5));
+                    int Jumlah = Integer.parseInt(jumlahSpinner.getValue().toString());
+                    int Harga = Integer.parseInt(hargaText.getText());
+        
+                    int Subtotal = Jumlah*Harga;
+        
+                    subtotalText.setText(String.valueOf(Subtotal));
+                }
             }
-        
-        
+            cn.close();
+        } catch (Exception ex) {
+            //Logger.getLogger(kasir.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_menuComboBoxActionPerformed
 
@@ -632,15 +689,10 @@ public class kasir extends javax.swing.JFrame {
     }//GEN-LAST:event_jumlahSpinnerStateChanged
 
     private void cButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButtonActionPerformed
-        // TODO add your handling code here:
         
-        DefaultComboBoxModel modelMeja = new DefaultComboBoxModel(meja);
-        mejaComboBox.setModel(modelMeja);
-        DefaultComboBoxModel modelKategori = new DefaultComboBoxModel(kategori);
-        kategoriComboBox.setModel(modelKategori);
-        menuComboBox.setModel(new DefaultComboBoxModel<> (new String[] {
-                "Pilih Menu"
-        }));
+        if(statTransaksi==0){
+            idTransaksi();
+        }
         DefaultTableModel tableDaftar = (DefaultTableModel)daftarTable.getModel();
         tableDaftar.setRowCount(0);
         
@@ -648,6 +700,7 @@ public class kasir extends javax.swing.JFrame {
         bayarText.setText("");
         kembaliText.setText("");
         tagihanText.setText("");
+        statCetak=0;
         
     }//GEN-LAST:event_cButtonActionPerformed
 
@@ -660,6 +713,30 @@ public class kasir extends javax.swing.JFrame {
         this.setVisible(false);
         new menu().setVisible(true);
     }//GEN-LAST:event_kembaliButtonActionPerformed
+
+    private void mejaComboBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mejaComboBoxKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mejaComboBoxKeyPressed
+
+    private void bayarTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bayarTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bayarTextActionPerformed
+
+    private void bayarTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bayarTextKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if(((Character.isDigit(c))) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE){
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Input hanya angka");
+            evt.consume();
+        }
+    }//GEN-LAST:event_bayarTextKeyTyped
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -707,7 +784,6 @@ public class kasir extends javax.swing.JFrame {
     private javax.swing.JTextField hargaText;
     private javax.swing.JPanel inputPanel;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel judulLabel;
     private javax.swing.JPanel judulPanel;
@@ -732,4 +808,177 @@ public class kasir extends javax.swing.JFrame {
     private javax.swing.JTextField totalText;
     private javax.swing.JPanel utamaPanel;
     // End of variables declaration//GEN-END:variables
+
+    private void tampilkanMeja() {
+       
+        try {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+            ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM tb_meja");
+            int j=0;
+            while(rs.next()){
+                idMeja.add(rs.getString(1));
+                meja.add(rs.getString(2));
+                mejaComboBox.addItem(rs.getString(2));
+            }
+            cn.close();
+        } catch (Exception ex) {
+            Logger.getLogger(kasir.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan tampilkanMeja()", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void tampilkanKategori() {
+        try {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+            ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM tb_kategori"); 
+            while(rs.next()){
+                kategoriComboBox.addItem(rs.getString(2));
+            }
+            rs.beforeFirst();
+            String pilihanKategori = kategoriComboBox.getSelectedItem().toString();
+            
+            while(rs.next()){
+                if(pilihanKategori.equals(rs.getString(2))){
+                    idKategori = rs.getString(1);
+                }
+            }
+            cn.close();
+        } catch (Exception ex) {
+            Logger.getLogger(kasir.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void tampilkanMenu() {
+        try {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+            ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM tb_menu"); 
+            while(rs.next()){
+                if(idKategori.equals(rs.getString(2))){
+                    idMenu.add(rs.getString(1));
+                    menu.add(rs.getString(4));
+                    menuComboBox.addItem(rs.getString(4));
+                }
+            }
+            rs.beforeFirst();
+            String pilihanMenu = menuComboBox.getSelectedItem().toString();
+            
+            while(rs.next()){
+                if(pilihanMenu.equals(rs.getString(4))){
+                    kodeText.setText(rs.getString(3));
+                    hargaText.setText(rs.getString(5));
+                }
+            }
+            cn.close();
+        } catch (Exception ex) {
+            Logger.getLogger(kasir.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void idTransaksi(){
+        String insertMeja = mejaComboBox.getSelectedItem().toString();
+        int indeksMeja = meja.indexOf(insertMeja);
+        int insertIDMeja = Integer.parseInt(idMeja.get(indeksMeja));
+        int rowTransaksi = 0;
+        
+            try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+                PreparedStatement ps = cn.prepareStatement("insert into tb_transaksi (id_transaksi, id_meja, total, bayar, kembali, tanggal, status) values (?, ?, ?, ?, ?, ?, ?)");
+                ps.setNull(1, Types.NULL);
+                ps.setInt(2, insertIDMeja);
+                ps.setNull(3, Types.NULL);
+                ps.setNull(4, Types.NULL);
+                ps.setNull(5, Types.NULL);
+                ps.setNull(6, Types.NULL);
+                ps.setString(7, "Belum Berhasil");
+                ps.execute();
+                cn.close();
+                statTransaksi=1;
+            } catch (Exception ex) {
+                Logger.getLogger(kasir.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+                ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM tb_transaksi"); 
+                while(rs.next()){
+                    tampungIdTransaksi = String.valueOf(rs.getInt(1)).toString();
+                }
+                cn.close();
+            } catch (Exception ex) {
+                Logger.getLogger(kasir.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+            }  
+    }
+    
+    private void detailTransaksi(){
+        int IDTransaksi = Integer.parseInt(tampungIdTransaksi);
+        
+        String menuString = menuComboBox.getSelectedItem().toString();
+        int menuIndeks = menu.indexOf(menuString);
+        int idmenu = Integer.parseInt(idMenu.get(menuIndeks));
+        
+        int jumlahMenu = Integer.parseInt(jumlahSpinner.getValue().toString());
+     
+        long subtotalMenu = Long.parseLong(subtotalText.getText());
+        
+        try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+                PreparedStatement ps = cn.prepareStatement("insert into tb_transaksidetail (id_transaksidetail, id_transaksi, id_menu, jumlah, subtotal) values (?, ?, ?, ?, ?)");
+                ps.setNull(1, Types.NULL);
+                ps.setInt(2, IDTransaksi);
+                ps.setInt(3, idmenu);
+                ps.setInt(4, jumlahMenu);
+                ps.setLong(5, subtotalMenu);
+                ps.execute();
+                cn.close();
+            } catch (Exception ex) {
+                Logger.getLogger(kasir.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+            }
+    }
+
+    private void transaksi(){
+        String insertMeja = mejaComboBox.getSelectedItem().toString();
+        int indeksMeja = meja.indexOf(insertMeja);
+        int insertIDMeja = Integer.parseInt(idMeja.get(indeksMeja));
+        long totalLong = Long.parseLong(totalText.getText());
+        long bayarLong = Long.parseLong(bayarText.getText());
+        long kembaliLong = Long.parseLong(kembaliText.getText());
+        int idtransaksiInt = Integer.parseInt(tampungIdTransaksi);
+        try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+                PreparedStatement ps = cn.prepareStatement("update tb_transaksi set id_meja=?, total=?, bayar=?, kembali=?, tanggal=?, status=? where id_transaksi=?");
+                ps.setInt(1, insertIDMeja);
+                ps.setLong(2, totalLong);
+                ps.setLong(3, bayarLong);
+                ps.setLong(4, kembaliLong);
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); 
+                Calendar kalender = Calendar.getInstance();  
+                java.sql.Timestamp datetime = new java.sql.Timestamp(kalender.getTimeInMillis());
+                ps.setTimestamp(5, datetime);
+                ps.setString(6, "Berhasil");
+                ps.setInt(7, idtransaksiInt); 
+                ps.executeUpdate();
+                cn.close();
+            } catch (Exception ex) {
+                Logger.getLogger(kasir.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan transaksi()", JOptionPane.ERROR_MESSAGE);
+            }
+    }
+    
+    /*private void fileTransaksi(){
+        try{
+            String content = "This is the content to write into a file";
+            File file = new File("transaksi"+tampungIdTransaksi+".txt");
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(content);
+            bw.close();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }*/
+    
 }

@@ -5,18 +5,35 @@
  */
 package pengaturan;
 
+import java.awt.event.KeyEvent;
+import java.util.logging.*;
+import java.util.ArrayList;
+import java.sql.*;
+import javax.swing.*;
+
 /**
  *
  * @author HP
  */
 public class tambah extends javax.swing.JFrame {
-
+    
+    ArrayList<String> meja = new ArrayList<String>();
+    ArrayList<String> idKategori = new ArrayList<String>();
+    ArrayList<String> kategori = new ArrayList<String>();
+    ArrayList<String> kode = new ArrayList<String>();
+    ArrayList<String> menu = new ArrayList<String>();
+    
+    int i;
     /**
      * Creates new form tambah
      */
     public tambah() {
         initComponents();
         this.setLocationRelativeTo(null);
+
+        tampilkanData();
+        keterangan();
+
     }
 
     /**
@@ -28,219 +45,595 @@ public class tambah extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        utamaPanel = new javax.swing.JPanel();
+        utama2Panel = new javax.swing.JPanel();
+        judulPanel = new javax.swing.JPanel();
+        judulLabel = new javax.swing.JLabel();
+        kategoriPanel = new javax.swing.JPanel();
+        judulkategoriPanel = new javax.swing.JPanel();
+        judulkategoriLabel = new javax.swing.JLabel();
+        kategoriText = new javax.swing.JTextField();
+        tambahkategoriButton = new javax.swing.JButton();
+        menuPanel = new javax.swing.JPanel();
+        kategoriComboBox = new javax.swing.JComboBox<>();
+        menuText = new javax.swing.JTextField();
+        kodeText = new javax.swing.JTextField();
+        hargaText = new javax.swing.JTextField();
+        tambahmenuButton = new javax.swing.JButton();
+        kembaliButton = new javax.swing.JButton();
+        mejaPanel = new javax.swing.JPanel();
+        judulmejaPanel = new javax.swing.JPanel();
+        judulmejaLabel = new javax.swing.JLabel();
+        mejaText = new javax.swing.JTextField();
+        tambahmejaButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(10, 4, 60));
+        utama2Panel.setBackground(new java.awt.Color(10, 4, 60));
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        judulPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("MENU TAMBAH");
+        judulLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        judulLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        judulLabel.setText("PENGATURAN TAMBAH");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout judulPanelLayout = new javax.swing.GroupLayout(judulPanel);
+        judulPanel.setLayout(judulPanelLayout);
+        judulPanelLayout.setHorizontalGroup(
+            judulPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(judulLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-        );
-
-        jPanel4.setBackground(new java.awt.Color(128, 255, 219));
-
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("KATEGORI");
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        judulPanelLayout.setVerticalGroup(
+            judulPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(judulLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        kategoriPanel.setBackground(new java.awt.Color(128, 255, 219));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("TAMBAH");
+        judulkategoriPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1))
-                .addContainerGap())
+        judulkategoriLabel.setBackground(new java.awt.Color(255, 255, 255));
+        judulkategoriLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        judulkategoriLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        judulkategoriLabel.setText("KATEGORI");
+
+        javax.swing.GroupLayout judulkategoriPanelLayout = new javax.swing.GroupLayout(judulkategoriPanel);
+        judulkategoriPanel.setLayout(judulkategoriPanelLayout);
+        judulkategoriPanelLayout.setHorizontalGroup(
+            judulkategoriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(judulkategoriLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addContainerGap())
+        judulkategoriPanelLayout.setVerticalGroup(
+            judulkategoriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(judulkategoriLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jPanel5.setBackground(new java.awt.Color(128, 255, 219));
-
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("MENU");
-
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField3.setText("KODE");
-
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField4.setText("HARGA");
-
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setText("TAMBAH");
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField3)
-                            .addComponent(jComboBox1, 0, 131, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton3.setText("KEMBALI");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        kategoriText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        kategoriText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                kategoriTextActionPerformed(evt);
+            }
+        });
+        kategoriText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                kategoriTextKeyTyped(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addGap(8, 8, 8)))
+        tambahkategoriButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        tambahkategoriButton.setText("TAMBAH");
+        tambahkategoriButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tambahkategoriButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout kategoriPanelLayout = new javax.swing.GroupLayout(kategoriPanel);
+        kategoriPanel.setLayout(kategoriPanelLayout);
+        kategoriPanelLayout.setHorizontalGroup(
+            kategoriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kategoriPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(kategoriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(kategoriPanelLayout.createSequentialGroup()
+                        .addComponent(judulkategoriPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(kategoriText, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tambahkategoriButton))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        kategoriPanelLayout.setVerticalGroup(
+            kategoriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kategoriPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(kategoriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(judulkategoriPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(kategoriText, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tambahkategoriButton, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        menuPanel.setBackground(new java.awt.Color(128, 255, 219));
+
+        kategoriComboBox.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
+        menuText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        menuText.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        menuText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                menuTextFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                menuTextFocusLost(evt);
+            }
+        });
+        menuText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                menuTextKeyTyped(evt);
+            }
+        });
+
+        kodeText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        kodeText.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        kodeText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                kodeTextFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                kodeTextFocusLost(evt);
+            }
+        });
+        kodeText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                kodeTextKeyTyped(evt);
+            }
+        });
+
+        hargaText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        hargaText.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        hargaText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                hargaTextFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                hargaTextFocusLost(evt);
+            }
+        });
+        hargaText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                hargaTextKeyTyped(evt);
+            }
+        });
+
+        tambahmenuButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        tambahmenuButton.setText("TAMBAH");
+        tambahmenuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tambahmenuButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
+        menuPanel.setLayout(menuPanelLayout);
+        menuPanelLayout.setHorizontalGroup(
+            menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menuPanelLayout.createSequentialGroup()
+                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(kodeText)
+                            .addComponent(kategoriComboBox, 0, 131, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(hargaText)
+                            .addComponent(menuText, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(tambahmenuButton)))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        menuPanelLayout.setVerticalGroup(
+            menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(kategoriComboBox)
+                    .addComponent(menuText, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(kodeText, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hargaText, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tambahmenuButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        kembaliButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        kembaliButton.setText("KEMBALI");
+        kembaliButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kembaliButtonActionPerformed(evt);
+            }
+        });
+
+        mejaPanel.setBackground(new java.awt.Color(128, 255, 219));
+
+        judulmejaPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        judulmejaLabel.setBackground(new java.awt.Color(255, 255, 255));
+        judulmejaLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        judulmejaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        judulmejaLabel.setText("MEJA");
+
+        javax.swing.GroupLayout judulmejaPanelLayout = new javax.swing.GroupLayout(judulmejaPanel);
+        judulmejaPanel.setLayout(judulmejaPanelLayout);
+        judulmejaPanelLayout.setHorizontalGroup(
+            judulmejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(judulmejaLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+        );
+        judulmejaPanelLayout.setVerticalGroup(
+            judulmejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(judulmejaLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+        );
+
+        mejaText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mejaText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mejaTextActionPerformed(evt);
+            }
+        });
+        mejaText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                mejaTextKeyTyped(evt);
+            }
+        });
+
+        tambahmejaButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        tambahmejaButton.setText("TAMBAH");
+        tambahmejaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tambahmejaButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout mejaPanelLayout = new javax.swing.GroupLayout(mejaPanel);
+        mejaPanel.setLayout(mejaPanelLayout);
+        mejaPanelLayout.setHorizontalGroup(
+            mejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mejaPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mejaPanelLayout.createSequentialGroup()
+                        .addComponent(judulmejaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(mejaText, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mejaPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(tambahmejaButton)))
+                .addContainerGap())
+        );
+        mejaPanelLayout.setVerticalGroup(
+            mejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mejaPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mejaText, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(judulmejaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tambahmejaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
+        );
+
+        javax.swing.GroupLayout utama2PanelLayout = new javax.swing.GroupLayout(utama2Panel);
+        utama2Panel.setLayout(utama2PanelLayout);
+        utama2PanelLayout.setHorizontalGroup(
+            utama2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(utama2PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(utama2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(menuPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(kategoriPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(judulPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, utama2PanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(kembaliButton))
+                    .addComponent(mejaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        utama2PanelLayout.setVerticalGroup(
+            utama2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(utama2PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(judulPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mejaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(kategoriPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(kembaliButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout utamaPanelLayout = new javax.swing.GroupLayout(utamaPanel);
+        utamaPanel.setLayout(utamaPanelLayout);
+        utamaPanelLayout.setHorizontalGroup(
+            utamaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(utama2Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        utamaPanelLayout.setVerticalGroup(
+            utamaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(utama2Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(utamaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(utamaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void kembaliButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kembaliButtonActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
         new pengaturan().setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_kembaliButtonActionPerformed
+
+    private void mejaTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mejaTextKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if( ((Character.isAlphabetic(c))) || ((Character.isDigit(c))) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_SPACE){
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Input hanya dapat huruf, angka dan spasi");
+            evt.consume();
+        }
+    }//GEN-LAST:event_mejaTextKeyTyped
+
+    private void kategoriTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_kategoriTextKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if( ((Character.isAlphabetic(c))) || ((Character.isDigit(c))) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_SPACE){
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Input hanya dapat huruf, angka dan spasi");
+            evt.consume();
+        }
+    }//GEN-LAST:event_kategoriTextKeyTyped
+
+    private void menuTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_menuTextKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if( ((Character.isAlphabetic(c))) || ((Character.isDigit(c))) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_SPACE){
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Input hanya dapat huruf, angka dan spasi");
+            evt.consume();
+        }
+    }//GEN-LAST:event_menuTextKeyTyped
+
+    private void kodeTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_kodeTextKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if( ((Character.isAlphabetic(c))) || ((Character.isDigit(c))) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE){
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Input hanya dapat huruf dan angka");
+            evt.consume();
+        }
+    }//GEN-LAST:event_kodeTextKeyTyped
+
+    private void hargaTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hargaTextKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if(((Character.isDigit(c))) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE){
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Input hanya dapat angka");
+            evt.consume();
+        }
+    }//GEN-LAST:event_hargaTextKeyTyped
+
+    private void mejaTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mejaTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mejaTextActionPerformed
+
+    private void tambahmejaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahmejaButtonActionPerformed
+        // TODO add your handling code here:
+        String insertMeja = mejaText.getText();
+        boolean sama = meja.contains(insertMeja);
+        if(insertMeja.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Input Tidak Boleh Kosong","Peringatan", JOptionPane.ERROR_MESSAGE);
+        }else if(sama){
+            JOptionPane.showMessageDialog(null, "Data sudah ada di database","Proses Tidak Berhasil", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+                PreparedStatement ps = cn.prepareStatement("insert into tb_meja (id_meja, meja) values (?, ?)");
+                ps.setNull(1, Types.NULL);
+                ps.setString(2, insertMeja);
+                ps.execute();
+                JOptionPane.showMessageDialog(null, "Proses tambah meja berhasil","Pesan", JOptionPane.OK_OPTION);
+                mejaText.setText("");
+                cn.close();
+                tampilkanData();
+            } catch (Exception ex) {
+                Logger.getLogger(tambah.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+                PreparedStatement ps = cn.prepareStatement("insert into tb_meja_rekap (id_meja_rekap, meja) values (?, ?)");
+                ps.setNull(1, Types.NULL);
+                ps.setString(2, insertMeja);
+                ps.execute();
+                cn.close();
+            } catch (Exception ex) {
+                Logger.getLogger(tambah.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+    }//GEN-LAST:event_tambahmejaButtonActionPerformed
+
+    private void kategoriTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kategoriTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kategoriTextActionPerformed
+
+    private void tambahkategoriButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahkategoriButtonActionPerformed
+        String insertKategori = kategoriText.getText();
+        boolean sama = kategori.contains(insertKategori);
+        if(insertKategori.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Input Tidak Boleh Kosong","Peringatan", JOptionPane.ERROR_MESSAGE);
+        }else if(sama){
+            JOptionPane.showMessageDialog(null, "Data sudah ada di database","Proses Tidak Berhasil", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+                PreparedStatement ps = cn.prepareStatement("insert into tb_kategori (id_kategori, kategori) values (?, ?)");
+                ps.setNull(1, Types.NULL);
+                ps.setString(2, insertKategori);
+                ps.execute();
+                JOptionPane.showMessageDialog(null, "Proses tambah kategori berhasil","Pesan", JOptionPane.OK_OPTION);
+                kategoriText.setText("");
+                cn.close();
+                tampilkanData();
+            } catch (Exception ex) {
+                Logger.getLogger(tambah.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+                PreparedStatement ps = cn.prepareStatement("insert into tb_kategori_rekap (id_kategori_rekap, kategori) values (?, ?)");
+                ps.setNull(1, Types.NULL);
+                ps.setString(2, insertKategori);
+                ps.execute();
+                cn.close();
+            } catch (Exception ex) {
+                Logger.getLogger(tambah.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_tambahkategoriButtonActionPerformed
+
+    private void tambahmenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahmenuButtonActionPerformed
+        // TODO add your handling code here:
+        String insertKategori = kategoriComboBox.getSelectedItem().toString();
+        int indeksKategori = kategori.indexOf(insertKategori);
+        int insertIdKategori = Integer.parseInt(idKategori.get(indeksKategori));
+        
+        
+        String insertMenu = menuText.getText();
+        boolean menusama = menu.contains(insertMenu);
+        
+        String insertKode = kodeText.getText();
+        boolean kodesama = kode.contains(insertKode);
+        
+        String cekHarga = hargaText.getText();
+        
+        if(menusama || kodesama || cekHarga.equals("MENU")){
+            if(cekHarga.equals("MENU")){
+                JOptionPane.showMessageDialog(null, "Inputan harga invalid","Proses Tidak Berhasil", JOptionPane.ERROR_MESSAGE);
+            }else if(menusama){
+                JOptionPane.showMessageDialog(null, "Nama menu sudah ada pada database","Proses Tidak Berhasil", JOptionPane.ERROR_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Kode Menu sudah ada pada database","Proses Tidak Berhasil", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            Long insertHarga = Long.parseLong(hargaText.getText());
+            try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+                PreparedStatement ps = cn.prepareStatement("insert into tb_menu (id_menu, id_kategori, kode, menu, harga) values (?, ?, ?, ?, ?)");
+                ps.setNull(1, Types.NULL);
+                ps.setInt(2, insertIdKategori);
+                ps.setString(3, insertKode);
+                ps.setString(4, insertMenu);
+                ps.setLong(5, insertHarga);
+                ps.execute();
+                JOptionPane.showMessageDialog(null, "Proses tambah menu berhasil","Pesan", JOptionPane.OK_OPTION);
+                kategoriText.setText("");
+                kodeText.setText("");
+                hargaText.setText("");
+                cn.close();
+                kategoriComboBox.removeAllItems();
+                tampilkanData();
+            } catch (Exception ex) {
+                Logger.getLogger(tambah.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+                PreparedStatement ps = cn.prepareStatement("insert into tb_menu_rekap (id_menu_rekap, id_kategori_rekap, kode, menu, harga) values (?, ?, ?, ?, ?)");
+                ps.setNull(1, Types.NULL);
+                ps.setInt(2, insertIdKategori);
+                ps.setString(3, insertKode);
+                ps.setString(4, insertMenu);
+                ps.setLong(5, insertHarga);
+                ps.execute();
+                cn.close();
+            } catch (Exception ex) {
+                Logger.getLogger(tambah.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_tambahmenuButtonActionPerformed
+
+    private void menuTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menuTextFocusGained
+        // TODO add your handling code here:
+        menuText.setText("");
+    }//GEN-LAST:event_menuTextFocusGained
+
+    private void menuTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_menuTextFocusLost
+        // TODO add your handling code here:
+        String fokusMenu = menuText.getText();
+        if(fokusMenu.isEmpty()){
+            menuText.setText("MENU");
+        }
+    }//GEN-LAST:event_menuTextFocusLost
+
+    private void kodeTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_kodeTextFocusGained
+        // TODO add your handling code here:
+        kodeText.setText("");
+    }//GEN-LAST:event_kodeTextFocusGained
+
+    private void kodeTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_kodeTextFocusLost
+        // TODO add your handling code here:
+        String fokuskode = kodeText.getText();
+        if(fokuskode.isEmpty()){
+            kodeText.setText("KODE");
+        }
+    }//GEN-LAST:event_kodeTextFocusLost
+
+    private void hargaTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hargaTextFocusGained
+        // TODO add your handling code here:
+        hargaText.setText("");
+    }//GEN-LAST:event_hargaTextFocusGained
+
+    private void hargaTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hargaTextFocusLost
+        // TODO add your handling code here:
+        String fokusharga = hargaText.getText();
+        if(fokusharga.isEmpty()){
+            hargaText.setText("HARGA");
+        }
+    }//GEN-LAST:event_hargaTextFocusLost
 
     /**
      * @param args the command line arguments
@@ -278,21 +671,104 @@ public class tambah extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField hargaText;
+    private javax.swing.JLabel judulLabel;
+    private javax.swing.JPanel judulPanel;
+    private javax.swing.JLabel judulkategoriLabel;
+    private javax.swing.JPanel judulkategoriPanel;
+    private javax.swing.JLabel judulmejaLabel;
+    private javax.swing.JPanel judulmejaPanel;
+    private javax.swing.JComboBox<String> kategoriComboBox;
+    private javax.swing.JPanel kategoriPanel;
+    private javax.swing.JTextField kategoriText;
+    private javax.swing.JButton kembaliButton;
+    private javax.swing.JTextField kodeText;
+    private javax.swing.JPanel mejaPanel;
+    private javax.swing.JTextField mejaText;
+    private javax.swing.JPanel menuPanel;
+    private javax.swing.JTextField menuText;
+    private javax.swing.JButton tambahkategoriButton;
+    private javax.swing.JButton tambahmejaButton;
+    private javax.swing.JButton tambahmenuButton;
+    private javax.swing.JPanel utama2Panel;
+    private javax.swing.JPanel utamaPanel;
     // End of variables declaration//GEN-END:variables
+
+    
+    
+    
+    private void tampilkanData(){
+        tampilkanMeja();
+        tampilkanKategori();
+        tampilkanMenu();
+        tampilkanKode();
+    }
+    
+    private void keterangan(){
+        menuText.setText("MENU");
+        kodeText.setText("KODE");
+        hargaText.setText("HARGA");
+    }
+
+    private void tampilkanMeja() {
+        try {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+            ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM tb_meja");
+
+            while(rs.next()){
+                meja.add(rs.getString(2));
+            }
+            cn.close();
+        } catch (Exception ex) {
+            Logger.getLogger(tambah.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void tampilkanKategori() {
+        try {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+            ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM tb_kategori");
+
+            while(rs.next()){
+                idKategori.add(rs.getString(1));
+                kategori.add(rs.getString(2));
+                kategoriComboBox.addItem(rs.getString(2));
+            }
+            cn.close();
+        } catch (Exception ex) {
+            Logger.getLogger(tambah.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void tampilkanKode() {
+        try {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+            ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM tb_menu");
+
+            while(rs.next()){
+                kode.add(rs.getString(3));
+            }
+            cn.close();
+        } catch (Exception ex) {
+            Logger.getLogger(tambah.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void tampilkanMenu() {
+        try {
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3308/db_kasirrestoranswing", "root", "");
+            ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM tb_menu");
+
+            while(rs.next()){
+                menu.add(rs.getString(4));
+            }
+            cn.close();
+        } catch (Exception ex) {
+            Logger.getLogger(tambah.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Koneksi Ke Database MySql Tidak Berhasil","Peringatan", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
